@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { fetchVideos } from '../service/api';
-import VideoCarousel from './VideoCarousel';
+
+import React, { useState, useEffect } from "react";
+import { fetchVideos } from "../service/api";
+import VideoCarousel from "./VideoCarousel";
 
 const categories = [
-  { id: 'all', name: 'All Videos', filter: () => true },
-  { id: 'music', name: 'Music', filter: (video) => video.category === 'music' },
-  { id: 'coding', name: 'Coding', filter: (video) => video.category === 'coding' },
-  { id: 'entertainment', name: 'Entertainment', filter: (video) => video.category === 'entertainment' },
-  { id: 'education', name: 'Education', filter: (video) => video.category === 'education' },
+  { id: "all", name: "All Videos", filter: () => true },
+  { id: "music", name: "Music", filter: (video) => video.category === "music" },
+  { id: "coding", name: "Coding", filter: (video) => video.category === "coding" },
+  { id: "entertainment", name: "Entertainment", filter: (video) => video.category === "entertainment" },
+  { id: "education", name: "Education", filter: (video) => video.category === "education" },
 ];
 
 function VideoGallery() {
@@ -18,18 +19,21 @@ function VideoGallery() {
 
   useEffect(() => {
     loadVideos(1);
+    // eslint-disable-next-line
   }, []);
 
+  // Load videos for a given page
   async function loadVideos(pageNum) {
     setLoading(true);
     const res = await fetchVideos(pageNum, 20);
     const newVideos = Array.isArray(res?.videos) ? res.videos : [];
-    setVideos(pageNum === 1 ? newVideos : [...videos, ...newVideos]);
+    setVideos(pageNum === 1 ? newVideos : (prev) => [...prev, ...newVideos]);
     setHasMore(newVideos.length === 20);
     setPage(pageNum);
     setLoading(false);
   }
 
+  // Load more videos on button click
   function loadMoreVideos() {
     if (hasMore && !loading) loadVideos(page + 1);
   }
@@ -45,7 +49,6 @@ function VideoGallery() {
 
   return (
     <div className="w-full">
-  
       <div className="space-y-8">
         {categories.map((cat) => {
           const vids = videos.filter(cat.filter);
@@ -73,7 +76,7 @@ function VideoGallery() {
                 Loading...
               </>
             ) : (
-              'Load More Videos'
+              "Load More Videos"
             )}
           </button>
         </div>

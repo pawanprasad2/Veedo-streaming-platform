@@ -1,63 +1,51 @@
-// services/api.js
+
 import axios from "axios";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const api = axios.create({ baseURL: BASE_URL });
 
-/**
- * Fetch paginated list of videos
- */
-export const fetchVideos = async (page = 1, limit = 10) => {
-  try {
-    const { data } = await api.get(`/api/videos`, {
-      params: { page, limit },
-    });
-    return data;
-  } catch (err) {
-    console.error("❌ Error fetching videos:", err);
-    throw err;
-  }
-};
+// Handle API errors
+function handleError(error, operation) {
+  console.error(`❌ Error ${operation}:`, error);
+  throw error;
+}
 
-/**
- * Fetch single video by ID
- */
-export const fetchVideoById = async (id) => {
+// Fetch paginated list of videos
+export async function fetchVideos(page = 1, limit = 10) {
+  try {
+    const { data } = await api.get(`/api/videos`, { params: { page, limit } });
+    return data;
+  } catch (error) {
+    handleError(error, "fetching videos");
+  }
+}
+
+// Fetch single video by ID
+export async function fetchVideoById(id) {
   try {
     const { data } = await api.get(`/api/videos/${id}`);
     return data;
-  } catch (err) {
-    console.error(`❌ Error fetching video with id ${id}:`, err);
-    throw err;
+  } catch (error) {
+    handleError(error, `fetching video with id ${id}`);
   }
-};
+}
 
-/**
- * Fetch all videos by category (excluding a specific video ID)
- */
-export const fetchVideosByCategory = async (category, excludeId) => {
+// Fetch all videos by category (excluding a specific video ID)
+export async function fetchVideosByCategory(category, excludeId) {
   try {
-    const { data } = await api.get(`/api/videos`, {
-      params: { category },
-    });
-    return data.videos.filter((v) => v._id !== excludeId);
-  } catch (err) {
-    console.error(`❌ Error fetching category videos:`, err);
-    throw err;
+    const { data } = await api.get(`/api/videos`, { params: { category } });
+    return data.videos.filter((video) => video._id !== excludeId);
+  } catch (error) {
+    handleError(error, "fetching category videos");
   }
-};
+}
 
-/**
- * Search videos by title (with pagination)
- */
-export const searchVideos = async (query, page = 1, limit = 10) => {
+// Search videos by title (with pagination)
+export async function searchVideos(query, page = 1, limit = 10) {
   try {
-    const { data } = await api.get(`/api/videos`, {
-      params: { title: query, page, limit },
-    });
+    const { data } = await api.get(`/api/videos`, { params: { title: query, page, limit } });
     return data;
-  } catch (err) {
-    console.error(`❌ Error searching videos for "${query}":`, err);
-    throw err;
+  } catch (error) {
+    handleError(error, `searching videos for "${query}"`);
   }
-};
+}

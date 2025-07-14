@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef, useContext } from "react";
+
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { CiSearch } from "react-icons/ci";
 import { FaRegCommentDots } from "react-icons/fa6";
@@ -9,28 +10,22 @@ import { FiHeart } from "react-icons/fi";
 import { LuHistory } from "react-icons/lu";
 import { MdPlaylistAdd } from "react-icons/md";
 import { BiVideo, BiMoviePlay } from "react-icons/bi";
-
 import { UserDataContext } from "../context/UserContext";
 import { searchVideos } from "../service/api";
-
 import SearchBox from "../components/SearchBox";
 import DesktopNav from "../components/DesktopNav";
 import MobileMenu from "../components/MobileMenu";
 
-export default function TopBar() {
+
+function TopBar() {
   const { user, setUser, loading } = useContext(UserDataContext);
   const navigate = useNavigate();
-
-  // search state
   const [searchQuery, setSearchQuery] = useState("");
   const [results, setResults] = useState([]);
   const [showResults, setShowResults] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
-
-  // mobile‐menu state
   const [showMenu, setShowMenu] = useState(false);
-
   const searchRef = useRef(null);
   const menuRef = useRef(null);
 
@@ -45,21 +40,31 @@ export default function TopBar() {
     { path: "/notification", icon: IoIosNotificationsOutline, label: "Notifications" },
   ];
 
-  // debounce search
+  // Debounced search effect
   useEffect(() => {
+    if (!searchQuery.trim()) {
+      setResults([]);
+      setShowResults(false);
+      return;
+    }
     const id = setTimeout(() => {
-      if (searchQuery.trim()) performSearch();
-      else {
-        setResults([]);
-        setShowResults(false);
-      }
+      setIsSearching(true);
+      searchVideos(searchQuery)
+        .then((data) => {
+          setResults(data?.videos || []);
+          setShowResults(true);
+        })
+        .catch(() => {
+          setResults([]);
+        })
+        .finally(() => setIsSearching(false));
     }, 300);
     return () => clearTimeout(id);
   }, [searchQuery]);
 
-  // close dropdowns on outside click
+  // Close dropdowns on outside click
   useEffect(() => {
-    const handler = (e) => {
+    function handler(e) {
       if (searchRef.current && !searchRef.current.contains(e.target)) {
         setShowResults(false);
         setShowSearch(false);
@@ -67,23 +72,10 @@ export default function TopBar() {
       if (menuRef.current && !menuRef.current.contains(e.target)) {
         setShowMenu(false);
       }
-    };
+    }
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
   }, []);
-
-  async function performSearch() {
-    setIsSearching(true);
-    try {
-      const data = await searchVideos(searchQuery);
-      setResults(data?.videos || []);
-      setShowResults(true);
-    } catch {
-      setResults([]);
-    } finally {
-      setIsSearching(false);
-    }
-  }
 
   function handleVideoClick(id) {
     navigate(`/video/${id}`);
@@ -202,9 +194,11 @@ export default function TopBar() {
           user={user}
           onLogout={handleLogout}
           onClose={() => setShowMenu(false)}
-          innerRef={menuRef}    // << attach ref here
+          innerRef={menuRef}
         />
       )}
     </div>
   );
 }
+
+export default TopBar;

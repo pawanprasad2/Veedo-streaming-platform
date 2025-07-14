@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef } from "react";
 import { CiSearch } from "react-icons/ci";
 import SearchResults from "../pages/SearchResults";
@@ -15,11 +16,21 @@ function SearchBox({
 }) {
   const inputRef = useRef();
 
+  // Focus input on mobile
   useEffect(() => {
-    if (isMobile && inputRef.current) {
-      inputRef.current.focus();
-    }
+    if (isMobile && inputRef.current) inputRef.current.focus();
   }, [isMobile]);
+
+  // Handle input change
+  const handleChange = (e) => setSearchQuery(e.target.value);
+  // Handle input focus
+  const handleFocus = () => searchQuery.trim() && setShowResults(true);
+  // Handle Enter key
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" && results.length > 0) onClickVideo(results[0]._id);
+  };
+  // Handle clear
+  const handleClear = () => setSearchQuery("");
 
   return (
     <div
@@ -32,18 +43,14 @@ function SearchBox({
           ref={inputRef}
           type="text"
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          onFocus={() => searchQuery.trim() && setShowResults(true)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" && results.length > 0) {
-              onClickVideo(results[0]._id);
-            }
-          }}
+          onChange={handleChange}
+          onFocus={handleFocus}
+          onKeyDown={handleKeyDown}
           placeholder="Search videos, movies..."
           className="w-full p-3 pl-10 pr-10 rounded-xl text-white placeholder-gray-400 bg-gradient-to-r from-[#242527] to-[#2a2a2c] border border-gray-600 focus:ring-2 focus:ring-[#e473ff] transition-all duration-300"
         />
         {searchQuery && (
-          <button onClick={() => setSearchQuery("")} className="absolute top-1/2 right-3 -translate-y-1/2 text-gray-400 hover:text-red-500 transition">×</button>
+          <button onClick={handleClear} className="absolute top-1/2 right-3 -translate-y-1/2 text-gray-400 hover:text-red-500 transition">×</button>
         )}
       </div>
 
