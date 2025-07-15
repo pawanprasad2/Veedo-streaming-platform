@@ -1,4 +1,3 @@
-import React from "react";
 import VideoGallery from "../components/VideoGallery";
 import { Play, Users, Video } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -23,16 +22,20 @@ const Home = () => {
   ];
 
   return (
-    <div className="w-full mt-18 animate-fade-in">
+    <div className="w-full   animate-fade-in">
       {/* Hero Section */}
-      <div className="w-full flex flex-col lg:flex-row h-auto text-white righteous-regular mb-12 rounded-2xl p-4 sm:p-6 lg:p-12">
-        <div className="w-full lg:w-1/2 flex flex-col justify-center space-y-6 animate-slide-in-left">
+      <div className="w-full flex  flex-col lg:flex-row h-auto text-white righteous-regular mb-12 rounded-2xl p-4 sm:p-6 lg:p-12">
+        <div className="w-full lg:w-1/2  flex flex-col justify-center space-y-6 animate-slide-in-left">
           <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold leading-tight">
-            Your Screen. Your Squad. Your{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-purple-600">Veedo</span>.
+            Your Screen. Your Squad. Your{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-purple-600">
+              Veedo
+            </span>
+            .
           </h1>
           <p className="text-base sm:text-lg lg:text-xl text-gray-300 leading-relaxed">
-            Host movie nights, stream your videos, and watch anything together — from anywhere. Veedo turns every screen into a shared experience.
+            Host movie nights, stream your videos, and watch anything together —
+            from anywhere. Veedo turns every screen into a shared experience.
           </p>
         </div>
         <div className="w-full lg:w-1/2 flex justify-center items-center mt-8 lg:mt-0 animate-slide-in-right">
@@ -49,7 +52,7 @@ const Home = () => {
                     <feature.icon className="w-6 sm:w-8 h-6 sm:h-8 text-pink-500 mx-auto" />
                     <h3 className="text-sm font-semibold">{feature.title}</h3>
                     <p className="text-xs text-gray-400">{feature.desc}</p>
-                    {feature.title === 'Watch Parties' && (
+                    {feature.title === "Watch Parties" && (
                       <Link
                         to="/watch-party"
                         className="inline-block mt-2 px-3 py-2 bg-pink-500 hover:bg-pink-700 text-white text-xs font-semibold rounded-lg shadow transition-all duration-300 hover:scale-105"
@@ -65,7 +68,7 @@ const Home = () => {
         </div>
       </div>
       {/* Video Gallery Section */}
-      <div className="animate-fade-in-up" style={{ animationDelay: '600ms' }}>
+      <div className="animate-fade-in-up" style={{ animationDelay: "600ms" }}>
         <VideoGallery />
       </div>
       <style>{`

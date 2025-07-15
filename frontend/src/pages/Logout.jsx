@@ -8,7 +8,8 @@ function Logout() {
   const navigate=useNavigate()
 
   useEffect(()=>{
-    axios.get(`${import.meta.env.VITE_BASE_URL}/api/users/logout`,
+    axios.post(`${import.meta.env.VITE_BASE_URL}/api/users/logout`, // changed from get to post
+      {},
       {
          headers: {
                 Authorization: `Bearer ${token}` 

@@ -19,16 +19,16 @@ const sidebarItems = [
 
 function LeftSidebar() {
   return (
-    <div className="flex flex-col items-center w-full h-full pt-8">
-      <div className="text-white flex flex-col items-center gap-6">
+    <div className="flex flex-col  justify-center w-full h-full  ">
+      <div className="text-white   flex p-4  flex-col  gap-6">
         {sidebarItems.map(({ path, icon: Icon }) => (
           <NavLink
             key={path}
             to={path}
             style={({ isActive }) => (isActive ? activeStyle : undefined)}
-            className="p-3 border-l-3 border-transparent hover:text-[#e473ff] hover:border-[#e473ff] transition-all duration-300"
+            className="p-3 border-l-3 border-transparent hover:text-[#e473ff]  transition-all duration-300"
           >
-            <Icon size={28} />
+            <Icon size={30} />
           </NavLink>
         ))}
       </div>

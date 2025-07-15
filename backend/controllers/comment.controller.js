@@ -24,7 +24,7 @@ const getComments = async (req, res) => {
 
   try {
     const comments = await Comment.find({ videoId })
-      .populate("userId", "username")
+      .populate("userId", "firstname")
       .sort({ createdAt: -1 }); // ✅ typo fixed: was `createAt`
 
     res.status(200).json({ success: true, comments });

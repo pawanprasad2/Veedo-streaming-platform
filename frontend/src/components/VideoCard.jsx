@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import Plyr from "plyr-react";
 import "plyr-react/plyr.css";
@@ -31,17 +30,10 @@ function VideoCard({ video }) {
       <div className="aspect-video relative group">
         {!showPlayer ? (
           <div className="relative w-full h-full bg-gray-800 cursor-pointer">
-            {video.thumbnail ? (
-              <img
-                src={video.thumbnail}
-                alt={video.title}
-                className="w-full h-full object-cover"
-              />
-            ) : (
-              <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-700 to-gray-800">
-                <Play size={48} className="text-gray-400" />
-              </div>
-            )}
+            {/* Always show fallback, remove thumbnail usage */}
+            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-700 to-gray-800">
+              <Play size={48} className="text-gray-400" />
+            </div>
             {/* Play overlay */}
             <div
               className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none"
@@ -87,4 +79,4 @@ function VideoCard({ video }) {
   );
 }
 
-export default VideoCard;
+export default VideoCard

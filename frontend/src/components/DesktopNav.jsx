@@ -1,7 +1,7 @@
-
 import React from "react";
 import { NavLink } from "react-router-dom";
 
+// Desktop navigation for main pages
 function DesktopNav({ navItems }) {
   // Only show the second and third nav items (index 1 and 2)
   return (
@@ -11,7 +11,7 @@ function DesktopNav({ navItems }) {
           key={path}
           to={path}
           className={({ isActive }) =>
-            `hover:text-[#e473ff] hover:scale-105 transition-all duration-300${isActive ? ' text-[#e473ff] border-b-2 border-[#e473ff]' : ''}`
+            `hover:text-[#e473ff] transition-all${isActive ? ' text-[#e473ff] border-b-2 border-[#e473ff]' : ''}`
           }
         >
           {label.toUpperCase()}

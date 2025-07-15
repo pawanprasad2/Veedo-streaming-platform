@@ -2,7 +2,7 @@ import React from 'react'
 
 function Like() {
   return (
-    <div>Like</div>
+    <div className="">Like</div>
   )
 }
 

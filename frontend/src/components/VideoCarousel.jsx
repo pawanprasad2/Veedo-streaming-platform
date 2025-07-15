@@ -83,7 +83,7 @@ const VideoCarousel = ({ videos, title, category }) => {
         >
           {videos.map((video, index) => (
             <div
-              key={video.id || index}
+              key={video._id || index} // fixed: use _id as key if available
               className={`flex-shrink-0 ${
                 visibleCards === 1 ? 'w-full' :
                 visibleCards === 2 ? 'w-1/2' :
