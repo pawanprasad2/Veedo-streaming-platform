@@ -21,4 +21,4 @@ function DesktopNav({ navItems }) {
   );
 }
 
-export default DesktopNav;
+export default DesktopNav
