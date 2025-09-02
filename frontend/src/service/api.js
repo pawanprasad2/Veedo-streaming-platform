@@ -6,7 +6,7 @@ const api = axios.create({ baseURL: BASE_URL });
 
 // Handle API errors
 function handleError(error, operation) {
-  console.error(`❌ Error ${operation}:`, error);
+  console.error(`Error ${operation}:`, error);
   throw error;
 }
 

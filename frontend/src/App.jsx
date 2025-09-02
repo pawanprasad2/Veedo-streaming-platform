@@ -28,14 +28,7 @@ function App() {
               </UserProtectedWrapper>
             }
           >
-            <Route
-              path="/"
-              element={
-               
-                  <Home />
-               
-              }
-            />
+            <Route path="/" element={<Home />} />
             <Route path="/like" element={<Like />} />
             <Route path="/mylist" element={<MyList />} />
             <Route path="/history" element={<History />} />
@@ -47,14 +40,7 @@ function App() {
             <Route path="/notification" element={<Notification />} />
           </Route>
           <Route path="/login" element={<Login />} />
-          <Route
-            path="/logout"
-            element={
-             
-                <Logout />
-             
-            }
-          />
+          <Route path="/logout" element={<Logout />} />
           <Route path="/signup" element={<Signup />} />
         </Routes>
       </BrowserRouter>

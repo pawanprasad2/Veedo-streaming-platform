@@ -1,6 +1,7 @@
 import VideoGallery from "../components/VideoGallery";
 import { Play, Users, Video } from "lucide-react";
 import { Link } from "react-router-dom";
+import "../homeAnimations.css";
 
 const Home = () => {
   const features = [
@@ -71,16 +72,6 @@ const Home = () => {
       <div className="animate-fade-in-up" style={{ animationDelay: "600ms" }}>
         <VideoGallery />
       </div>
-      <style>{`
-        @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes slide-in-left { from { opacity: 0; transform: translateX(-50px); } to { opacity: 1; transform: translateX(0); } }
-        @keyframes slide-in-right { from { opacity: 0; transform: translateX(50px); } to { opacity: 1; transform: translateX(0); } }
-        @keyframes fade-in-up { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-fade-in { animation: fade-in 0.8s ease-out; }
-        .animate-slide-in-left { animation: slide-in-left 0.8s ease-out; }
-        .animate-slide-in-right { animation: slide-in-right 0.8s ease-out; }
-        .animate-fade-in-up { animation: fade-in-up 0.8s ease-out; opacity: 0; animation-fill-mode: forwards; }
-      `}</style>
     </div>
   );
 };
