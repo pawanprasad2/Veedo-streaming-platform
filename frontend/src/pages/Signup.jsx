@@ -4,9 +4,18 @@ import AuthImagePattern from "../components/AuthImagePattern";
 
 function Signup() {
   const [showPassword, setShowPassword] = useState(false);
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+  });
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
   return (
-    <div className="min-h-screen grid lg:grid-cols-2 ">
+    <div className="min-h-screen grid  lg:grid-cols-2 ">
       {/* Left Side - Signup Form */}
       <div className="flex flex-col justify-center items-center p-8 bg-[#e6e8f0]">
         <div className="w-full max-w-md space-y-8">
@@ -16,33 +25,39 @@ function Signup() {
               <div className="size-16 rounded-2xl bg-pink-100 flex items-center justify-center shadow-sm">
                 <Video className="size-8 text-pink-600" strokeWidth={2} />
               </div>
-              <h1 className="text-3xl font-bold text-black mt-2">
+              <h1 className="text-3xl righteous-regular font-bold text-black mt-2">
                 Create Account
               </h1>
-              <p className="text-gray-600 text-base">
-                Join our video community today
+              <p className="text-gray-600 righteous-regular text-base ">
+                Join our veedo community today
               </p>
             </div>
           </div>
 
           {/* Form */}
-          <form className="space-y-6">
-            {/* Full Name */}
+          <form className="space-y-6" onSubmit={handleSubmit}>
+            {/* first Name */}
             <div className="space-y-2">
-              <label className="text-sm font-medium text-black">
-                Full Name
+              <label className="text-sm font-medium righteous-regular text-black">
+                First Name
               </label>
               <div className="relative">
-                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-pink-400 size-5" />
+                <User className="absolute left-3 top-1/2  transform -translate-y-1/2 text-pink-400 size-5" />
                 <input
                   type="text"
                   className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-pink-400 focus:outline-none transition-colors bg-white text-black placeholder-gray-400"
-                  placeholder="Enter your full name"
+                  placeholder="Enter your First name"
+                  value={formData.firstName}
+                  onChange={(e) =>
+                    setFormData({ ...formData, firstName: e.target.value })
+                  }
                 />
               </div>
             </div>
+
+            {/* lastName */}
             <div className="space-y-2">
-              <label className="text-sm font-medium text-black">
+              <label className="text-sm righteous-regular font-medium text-black">
                 Last Name
               </label>
               <div className="relative">
@@ -50,14 +65,18 @@ function Signup() {
                 <input
                   type="text"
                   className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-pink-400 focus:outline-none transition-colors bg-white text-black placeholder-gray-400"
-                  placeholder="Enter your full name"
+                  placeholder="Enter your last Name"
+                  value={formData.lastName}
+                  onChange={(e) =>
+                    setFormData({ ...formData, lastName: e.target.value })
+                  }
                 />
               </div>
             </div>
 
             {/* Email */}
             <div className="space-y-2">
-              <label className="text-sm font-medium text-black">
+              <label className="text-sm righteous-regular font-medium text-black">
                 Email Address
               </label>
               <div className="relative">
@@ -66,19 +85,27 @@ function Signup() {
                   type="email"
                   className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-pink-400 focus:outline-none transition-colors bg-white text-black placeholder-gray-400"
                   placeholder="Enter your email"
+                  value={formData.email}
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
                 />
               </div>
             </div>
 
             {/* Password */}
             <div className="space-y-2">
-              <label className="text-sm font-medium text-black">Password</label>
+              <label className="text-sm righteous-regular font-medium text-black">Password</label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-pink-400 size-5" />
                 <input
                   type={showPassword ? "text" : "password"}
                   className="w-full pl-10 pr-12 py-3 border-2 border-gray-200 rounded-xl focus:border-pink-400 focus:outline-none transition-colors bg-white text-black placeholder-gray-400"
                   placeholder="Create a password"
+                  value={formData.password}
+                  onChange={(e) =>
+                    setFormData({ ...formData, password: e.target.value })
+                  }
                 />
                 <button
                   type="button"
@@ -96,7 +123,7 @@ function Signup() {
 
             <button
               type="submit"
-              className="w-full bg-pink-600 hover:bg-pink-700 text-white font-semibold py-3 px-4 rounded-xl transition-colors shadow-lg hover:shadow-xl transform hover:scale-[1.02] active:scale-[0.98]"
+              className="w-full bg-pink-600 righteous-regular hover:bg-pink-700 text-white font-semibold py-3 px-4 rounded-xl transition-colors shadow-lg hover:shadow-xl transform hover:scale-[1.02] active:scale-[0.98]"
             >
               Create Account
             </button>
@@ -119,7 +146,7 @@ function Signup() {
       {/* Right Side - Pattern */}
       <AuthImagePattern
         title="Veedo"
-        subtitle="Create, upload, and share amazing videos with the world"
+        subtitle="Create, upload, and watch amazing videos with everyone."
       />
     </div>
   );

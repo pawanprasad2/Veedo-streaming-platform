@@ -28,15 +28,8 @@ const AuthImagePattern = ({ title, subtitle }) => {
       </div>
       <h2 className="text-3xl righteous-regular text-white mb-2">{title}</h2>
       <p className="text-pink-200 righteous-regular ">{subtitle}</p>
-      <div className="flex gap-3 mt-6">
-        <div className="flex righteous-regular items-center gap-1 text-xs text-white">
-          <Camera className="w-4 h-4" /> <span>Video Power</span>
-        </div>
-        <div className="flex items-center righteous-regular gap-1 text-xs text-white">
-          <Check className="w-4 h-4 " /> <span >Verified</span>
-        </div>
-      </div>
-      <style jsx>{`
+     
+      <style jsx="true">{`
         @keyframes fadeInUp {
           from {
             opacity: 0;
