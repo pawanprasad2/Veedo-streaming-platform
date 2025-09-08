@@ -1,14 +1,24 @@
-
 import React, { useState, useEffect } from "react";
-import { fetchVideos } from "../service/api";
 import VideoCarousel from "./VideoCarousel";
 
 const categories = [
   { id: "all", name: "All Videos", filter: () => true },
   { id: "music", name: "Music", filter: (video) => video.category === "music" },
-  { id: "coding", name: "Coding", filter: (video) => video.category === "coding" },
-  { id: "entertainment", name: "Entertainment", filter: (video) => video.category === "entertainment" },
-  { id: "education", name: "Education", filter: (video) => video.category === "education" },
+  {
+    id: "coding",
+    name: "Coding",
+    filter: (video) => video.category === "coding",
+  },
+  {
+    id: "entertainment",
+    name: "Entertainment",
+    filter: (video) => video.category === "entertainment",
+  },
+  {
+    id: "education",
+    name: "Education",
+    filter: (video) => video.category === "education",
+  },
 ];
 
 function VideoGallery() {

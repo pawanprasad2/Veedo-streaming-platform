@@ -1,119 +1,99 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { UserDataContext } from "../context/UserContext";
-import axios from "axios";
+import React, { useState } from "react";
+import {
+  Mail,
+  Lock,
+  Video,
+  EyeOff,
+  Eye,
+} from "lucide-react";
+import AuthImageLogin from "../components/AuthImageLogin"
 
-export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  // const [userData,setUserData]=useState({})
-  const { user, setUser, loading } = useContext(UserDataContext);
-  const [error, setError] = useState("");
-  const navigate = useNavigate();
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
-    const userData = {
-      email: email,
-      password: password,
-    };
-    console.log(userData);
-    try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_BASE_URL}/api/users/login`,
-        userData
-      );
-      if (response.status == 200) {
-        const data = response.data;
-        setUser(data.user);
-        localStorage.setItem("token", data.token);
-        navigate("/");
-      }
-    } catch (error) {
-      console.log("Login error:", error);
-      if (error.response && error.response.data?.message) {
-        setError(error.response.data.message);
-      } else {
-        setError("Something went wrong. Please try again.");
-      }
-    }
-    setEmail("");
-    setPassword("");
-  };
-
-  useEffect(() => {
-    if (!loading && user) {
-      navigate("/");
-    }
-  }, [loading, user]);
+function Login() {
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className="bg-[#0d0d0f] min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-8">
-      <div className="bg-[#ececec] border-2 sm:border-4 border-[#f20e89] rounded-xl sm:rounded-2xl p-6 sm:p-8 w-full max-w-sm sm:max-w-md lg:max-w-lg">
-        <div className="text-center mb-6 sm:mb-8">
-          <h1 className="text-2xl sm:text-3xl font-bold text-black mb-2">
-            Welcome Back
-          </h1>
-          <p className="text-gray-600 text-sm sm:text-base">
-            Sign in to your account
-          </p>
-        </div>
-
-        <form
-          action=""
-          onSubmit={(e) => {
-            handleSubmit(e);
-          }}
-        >
-          {error && (
-            <div className="text-red-600 text-center mb-3 sm:mb-4 text-sm sm:text-base px-2">
-              {error}
+    <div className="min-h-screen grid lg:grid-cols-2 bg-white">
+      {/* Left Side - Login Form */}
+      <div className="flex flex-col justify-center items-center p-8 bg-[#e6e8f0]">
+        <div className="w-full max-w-md space-y-8">
+          {/* Header */}
+          <div className="text-center mb-8">
+            <div className="flex flex-col items-center gap-3">
+              <div className="size-16 rounded-2xl bg-pink-100 flex items-center justify-center shadow-sm">
+                <Video className="size-8 text-pink-600" strokeWidth={2} />
+              </div>
+              <h1 className="text-3xl font-bold text-black mt-2">Welcome Back</h1>
+              <p className="text-gray-600 text-base">Sign in to your video account</p>
             </div>
-          )}
+          </div>
 
-          <label className="block text-base sm:text-lg font-medium text-black mb-2">
-            Email Address
-          </label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full mb-4 sm:mb-6 p-3 sm:p-4 border-2 border-[#e473ff] rounded-lg focus:outline-none focus:border-[#f20e89] transition-colors text-sm sm:text-base"
-            placeholder="Enter your email"
-            required
-          />
+          {/* Form */}
+          <form className="space-y-6">
+            {/* Email */}
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-black">Email Address</label>
+              <div className="relative">
+                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-pink-400 size-5" />
+                <input
+                  type="email"
+                  className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-pink-400 focus:outline-none transition-colors bg-white text-black placeholder-gray-400"
+                  placeholder="Enter your email"
+                />
+              </div>
+            </div>
 
-          <label className="block text-base sm:text-lg font-medium text-black mb-2">
-            Password
-          </label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full mb-4 sm:mb-6 p-3 sm:p-4 border-2 border-[#e473ff] rounded-lg focus:outline-none focus:border-[#f20e89] transition-colors text-sm sm:text-base"
-            placeholder="Enter your password"
-            required
-          />
+            {/* Password */}
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-black">Password</label>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-pink-400 size-5" />
+                <input
+                  type={showPassword ? "text" : "password"}
+                  className="w-full pl-10 pr-12 py-3 border-2 border-gray-200 rounded-xl focus:border-pink-400 focus:outline-none transition-colors bg-white text-black placeholder-gray-400"
+                  placeholder="Enter your password"
+                />
+                <button
+                  type="button"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? (
+                    <EyeOff className="size-5 text-pink-400 hover:text-pink-600 transition-colors" />
+                  ) : (
+                    <Eye className="size-5 text-pink-400 hover:text-pink-600 transition-colors" />
+                  )}
+                </button>
+              </div>
+            </div>
 
-          <button
-            type="submit"
-            className="w-full bg-[#f20e89] text-white py-3 sm:py-4 rounded-lg font-medium hover:bg-[#d60c73] active:bg-[#c40a68] transition-colors border-2 border-white text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-[#f20e89] focus:ring-offset-2 focus:ring-offset-[#ececec]"
-          >
-            Sign In
-          </button>
-        </form>
+            {/* Submit Button */}
+            <button
+              type="submit"
+              className="w-full bg-pink-600 hover:bg-pink-700 text-white font-semibold py-3 px-4 rounded-xl transition-colors shadow-lg hover:shadow-xl transform hover:scale-[1.02] active:scale-[0.98]"
+            >
+              Sign In
+            </button>
+          </form>
 
-        <p className="text-center text-gray-500 text-xs sm:text-sm mt-4 sm:mt-6 px-2">
-          Don't have an account?
-          <Link
-            className="font-bold ml-1 text-blue-700 hover:text-blue-800 transition-colors"
-            to="/signup"
-          >
-            Sign up here
-          </Link>
-        </p>
+          {/* Sign Up Link */}
+          <div className="text-center">
+            <p className="text-gray-600">
+              Don't have an account?{" "}
+              <a href="/signup" className="text-pink-600 hover:text-pink-700 font-medium transition-colors">
+                Create account
+              </a>
+            </p>
+          </div>
+        </div>
       </div>
+
+      {/* Right Side - Pattern */}
+      <AuthImageLogin
+        title="Welcome Back"
+        subtitle="Continue your video journey and connect with creators"
+      />
     </div>
   );
 }
+
+export default Login;

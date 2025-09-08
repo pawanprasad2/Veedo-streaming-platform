@@ -2,20 +2,23 @@
 
 
 
+
+
 .righteous-regular {
   font-family: "Righteous", sans-serif;
   font-weight: 400;
   font-style: normal;
-}
+  }
+  /*
 
 /* Optional: clean horizontal scrollbar */
-.no-scrollbar::-webkit-scrollbar {
+/* .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
-}
-
+} */
+ /* */ 
 
 

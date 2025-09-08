@@ -4,22 +4,8 @@ import TopBar from "./TopBar";
 import LeftSideBar from "./LeftSidebar";
 import Footer from "../pages/Footer";
 import { Outlet } from "react-router-dom";
-import { UserDataContext } from "../context/UserContext";
 
 const Layout = () => {
-  const { loading } = useContext(UserDataContext);
-
-  if (loading) {
-    return (
-      <div className="min-h-screen  bg-[#0d0d0f] flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-pink-500 mx-auto mb-4"></div>
-          <p className="text-white text-lg">Loading Veedo...</p>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen  flex flex-col bg-[#0d0d0f] text-white">
       <TopBar />

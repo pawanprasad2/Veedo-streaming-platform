@@ -3,7 +3,6 @@ import { useParams, useNavigate } from "react-router-dom";
 import Plyr from "plyr-react";
 import "plyr-react/plyr.css";
 import "../page.css";
-import { fetchVideoById, fetchVideosByCategory } from "../service/api";
 
 const VideoPlayerPage = () => {
   const { id } = useParams();
