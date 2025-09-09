@@ -62,20 +62,17 @@ module.exports.loginUser = async (req, res, next) => {
 
     //step 2  Extract input
     const { email, password } = req.body;
-   
+
     // Step 3: Check if user exists
     const user = await userModel.findOne({ email }).select("+password");
-  
 
     if (!user) {
-     
       return res.status(401).json({ message: "invalid  email or password" });
     }
     // Step 4: Compare password
     const isMatch = await user.comparePassword(password);
-   
+
     if (!isMatch) {
-    
       return res.status(401).json({ message: "invalid email or password" });
     }
     // Step 5: Generate token
@@ -108,3 +105,7 @@ module.exports.logoutUser = async (req, res, next) => {
 
   res.status(200).json({ message: "logged out" });
 };
+
+module.exports.checkAuth= async(req,res,next)=>{
+  res.status(200).json(req.user)
+}

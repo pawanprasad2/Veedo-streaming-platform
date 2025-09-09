@@ -34,5 +34,6 @@ router.post(
 router.get('/profile',userauthMiddleware.authUser,usercontroller.getUserProfile)
 
 router.post('/logout',userauthMiddleware.authUser,usercontroller.logoutUser)
+router.get("/checkauth",userauthMiddleware.authUser,usercontroller.checkAuth)
 
 module.exports=router
