@@ -42,7 +42,7 @@ export const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
 const authSlice = createSlice({
   name: "auth",
   initialState: {
-    authusers: null,
+    authUsers: null,
     isSigningup: false,
     isLoggingIn: false,
     isCheckingAuth: true,
@@ -52,8 +52,47 @@ const authSlice = createSlice({
 
 extraReducers:(builder)=>{
     builder
+    //checkAuth
+    .addcase(checkAuth.pending,(state)=>{
+      state.isCheckingAuth=true
+    })
+    .addcase(checkAuth.fulfilled,(state,action)=>{
+      state.authUsers=action.payload
+      state.isCheckingAuth=false
+    })
+    .addcase(checkAuth.rejected,(state,action)=>{
+      state.authUsers=null
+      state.isCheckingAuth=false
+    })
 
+    //signup
+    .addcase(signup.pending,(state)=>{
+      state.isSigningup=true
+    })
+    .addcase(signup.fulfilled,(state,action)=>{
+      state.isSigningup=false
+      state.authUsers=action.payload.user
+    })
+    .addcase(signup.rejected,(state,action)=>{
+      state.isSigningup=false
+    })
+
+    //login
+    .addcase(login.pending,(state)=>{
+      state.isLoggingIn=true
+    })
+    .addcase(login.fulfilled,(state,action)=>{
+      state.authUsers=false
+      state.authUsers=state.payload.user
+    })
+    .addcase(login.rejected,(state,action)=>{
+      state.isLoggingIn=false
+    })
+
+
+    //logout
     
+
 }
 export const userAuth= (state)=>state.auth
 export default authSlice.reducer
