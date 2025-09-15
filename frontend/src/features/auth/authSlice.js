@@ -48,51 +48,53 @@ const authSlice = createSlice({
     isCheckingAuth: true,
   },
   reducers: {},
-});
+
 
 extraReducers:(builder)=>{
     builder
     //checkAuth
-    .addcase(checkAuth.pending,(state)=>{
+    .addCase(checkAuth.pending,(state)=>{
       state.isCheckingAuth=true
     })
-    .addcase(checkAuth.fulfilled,(state,action)=>{
+    .addCase(checkAuth.fulfilled,(state,action)=>{
       state.authUsers=action.payload
       state.isCheckingAuth=false
     })
-    .addcase(checkAuth.rejected,(state,action)=>{
+    .addCase(checkAuth.rejected,(state,action)=>{
       state.authUsers=null
       state.isCheckingAuth=false
     })
 
     //signup
-    .addcase(signup.pending,(state)=>{
+    .addCase(signup.pending,(state)=>{
       state.isSigningup=true
     })
-    .addcase(signup.fulfilled,(state,action)=>{
+    .addCase(signup.fulfilled,(state,action)=>{
       state.isSigningup=false
       state.authUsers=action.payload.user
     })
-    .addcase(signup.rejected,(state,action)=>{
+    .addCase(signup.rejected,(state,action)=>{
       state.isSigningup=false
     })
 
     //login
-    .addcase(login.pending,(state)=>{
+    .addCase(login.pending,(state)=>{
       state.isLoggingIn=true
     })
-    .addcase(login.fulfilled,(state,action)=>{
+    .addCase(login.fulfilled,(state,action)=>{
       state.authUsers=false
-      state.authUsers=state.payload.user
+      state.authUsers=action.payload.user
     })
-    .addcase(login.rejected,(state,action)=>{
+    .addCase(login.rejected,(state)=>{
       state.isLoggingIn=false
     })
 
 
     //logout
-    
+    .addCase(logout.fulfilled,(state)=>{
+      state.authUsers=null
+    })
 
-}
+}});
 export const userAuth= (state)=>state.auth
 export default authSlice.reducer
