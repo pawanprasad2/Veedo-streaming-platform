@@ -82,7 +82,7 @@ extraReducers:(builder)=>{
       state.isLoggingIn=true
     })
     .addCase(login.fulfilled,(state,action)=>{
-      state.authUsers=false
+      state.isLoggingIn=false
       state.authUsers=action.payload.user
     })
     .addCase(login.rejected,(state)=>{

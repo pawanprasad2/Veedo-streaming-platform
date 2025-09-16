@@ -33,6 +33,9 @@ module.exports.registerUser = async (req, res, next) => {
 
     //step 5 :  Generate the jwt token
     const token = user.generateAuthToken();
+      res.cookie("token", token, {
+      httpOnly: true,
+    });
 
     //step 6 : send success response
     res.status(201).json({
@@ -46,7 +49,8 @@ module.exports.registerUser = async (req, res, next) => {
       },
     });
   } catch (error) {
-    //step 7 : pass error to the error ,middleware
+    console.error({"signup errror":error})
+    res.status(500).json({message:"internal server error"})
     next(error);
   }
 };
@@ -82,6 +86,8 @@ module.exports.loginUser = async (req, res, next) => {
     res.cookie("token", token);
     res.status(200).json({ token, user });
   } catch (error) {
+        console.error({"login errror":error})
+    res.status(500).json({message:"internal server error"})
     next(error);
   }
 };
@@ -107,5 +113,7 @@ module.exports.logoutUser = async (req, res, next) => {
 };
 
 module.exports.checkAuth= async(req,res,next)=>{
+
   res.status(200).json(req.user)
+  
 }

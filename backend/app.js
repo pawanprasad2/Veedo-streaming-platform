@@ -18,7 +18,10 @@ app.get("/", (req, res) => {
 });
 
 app.use(cookieParser()); //This line tells Express how to handle form data sent from HTML forms using POST.
-app.use(cors());
+app.use(cors({
+  origin:"http://localhost:5173",
+  credentials:true
+}));
 app.use(express.json());
 app.use('/api/users',userRoutes)
 app.use('/api/videos',videoRoutes)

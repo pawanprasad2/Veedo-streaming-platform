@@ -1,18 +1,24 @@
 import React, { useState } from "react";
-import { Mail, User, Lock, Video, EyeOff, Eye } from "lucide-react";
+import { Mail, User, Lock, Video, EyeOff, Eye, Loader, Loader2 } from "lucide-react";
 import AuthImagePattern from "../components/AuthImagePattern";
-
+import {signup} from "../features/auth/authSlice"
+import {useDispatch,useSelector} from "react-redux"
 function Signup() {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    firstname: "",
+    lastname: "",
     email: "",
     password: "",
   });
+  const dispatch =useDispatch()
+  const isSigningup=useSelector((state)=>state.auth.isSigningup)
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(formData);
+    
+    dispatch(signup(formData))
   };
   return (
     <div className="min-h-screen grid  lg:grid-cols-2 ">
@@ -47,9 +53,9 @@ function Signup() {
                   type="text"
                   className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-pink-400 focus:outline-none transition-colors bg-white text-black placeholder-gray-400"
                   placeholder="Enter your First name"
-                  value={formData.firstName}
+                  value={formData.firstname}
                   onChange={(e) =>
-                    setFormData({ ...formData, firstName: e.target.value })
+                  setFormData({ ...formData, firstname: e.target.value })
                   }
                 />
               </div>
@@ -66,9 +72,9 @@ function Signup() {
                   type="text"
                   className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-pink-400 focus:outline-none transition-colors bg-white text-black placeholder-gray-400"
                   placeholder="Enter your last Name"
-                  value={formData.lastName}
+                  value={formData.lastname}
                   onChange={(e) =>
-                    setFormData({ ...formData, lastName: e.target.value })
+                    setFormData({ ...formData, lastname: e.target.value })
                   }
                 />
               </div>
@@ -123,9 +129,16 @@ function Signup() {
 
             <button
               type="submit"
-              className="w-full bg-pink-600 righteous-regular hover:bg-pink-700 text-white font-semibold py-3 px-4 rounded-xl transition-colors shadow-lg hover:shadow-xl transform hover:scale-[1.02] active:scale-[0.98]"
-            >
-              Create Account
+              disabled={isSigningup}
+              className="w-full bg-pink-600 righteous-regular hover:bg-pink-700 text-white font-semibold flex  justify-center py-3 px-4 rounded-xl transition-colors shadow-lg hover:shadow-xl transform hover:scale-[1.02] active:scale-[0.98]"
+            >{isSigningup?(
+              <>
+              <Loader2 className="size-5 flex animate-spin" /> Loading...
+              </>
+            ):(
+              
+              "Create Account"
+            )}
             </button>
           </form>
 
