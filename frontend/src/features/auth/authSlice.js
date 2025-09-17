@@ -1,7 +1,7 @@
 import axios from "axios";
 import { axiosInstance } from "../../lib/axios";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-
+import toast from "react-hot-toast";
 export const checkAuth = createAsyncThunk("auth/check", async (_, thunkAPI) => {
   try {
     const res = await axiosInstance.get("/users/checkauth");
@@ -13,28 +13,41 @@ export const checkAuth = createAsyncThunk("auth/check", async (_, thunkAPI) => {
   }
 });
 
-export const signup = createAsyncThunk("auth/signup", async (data, thunkAPI) => {
-  try {
-    const res = await axiosInstance.post("/users/register", data);
-    return res.data;
-  } catch (error) {
-    return thunkAPI.rejectWithValue(error.response?.data?.message);
+export const signup = createAsyncThunk(
+  "auth/signup",
+  async (data, thunkAPI) => {
+    try {
+      const res = await axiosInstance.post("/users/register", data);
+      toast.success("Account created successfully");
+      return res.data;
+    } catch (error) {
+      console.error({message:error})
+      toast.error(error.response?.data?.message || "Signup failed");
+      return thunkAPI.rejectWithValue(error.response?.data?.message);
+    }
   }
-});
+);
 
 export const login = createAsyncThunk("auth/login", async (data, thunkAPI) => {
   try {
     const res = await axiosInstance.post("/users/login", data);
+    toast.success("logged in successfully");
     return res.data;
   } catch (error) {
-return thunkAPI.rejectWithValue(error.response?.data?.message);  }
+    toast.error(error.response?.data?.message || "Login failed");
+    return thunkAPI.rejectWithValue(error.response?.data?.message);
+  }
 });
 
 export const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
   try {
     await axiosInstance.post("/users/logout");
+    toast.success("Logout successfully");
+
     return null;
   } catch (error) {
+    toast.error(error.response?.data?.message);
+
     return thunkAPI.rejectWithValue(error.response?.data?.message);
   }
 });
@@ -49,52 +62,50 @@ const authSlice = createSlice({
   },
   reducers: {},
 
-
-extraReducers:(builder)=>{
+  extraReducers: (builder) => {
     builder
-    //checkAuth
-    .addCase(checkAuth.pending,(state)=>{
-      state.isCheckingAuth=true
-    })
-    .addCase(checkAuth.fulfilled,(state,action)=>{
-      state.authUsers=action.payload
-      state.isCheckingAuth=false
-    })
-    .addCase(checkAuth.rejected,(state,action)=>{
-      state.authUsers=null
-      state.isCheckingAuth=false
-    })
+      //checkAuth
+      .addCase(checkAuth.pending, (state) => {
+        state.isCheckingAuth = true;
+      })
+      .addCase(checkAuth.fulfilled, (state, action) => {
+        state.authUsers = action.payload;
+        state.isCheckingAuth = false;
+      })
+      .addCase(checkAuth.rejected, (state, action) => {
+        state.authUsers = null;
+        state.isCheckingAuth = false;
+      })
 
-    //signup
-    .addCase(signup.pending,(state)=>{
-      state.isSigningup=true
-    })
-    .addCase(signup.fulfilled,(state,action)=>{
-      state.isSigningup=false
-      state.authUsers=action.payload.user
-    })
-    .addCase(signup.rejected,(state,action)=>{
-      state.isSigningup=false
-    })
+      //signup
+      .addCase(signup.pending, (state) => {
+        state.isSigningup = true;
+      })
+      .addCase(signup.fulfilled, (state, action) => {
+        state.isSigningup = false;
+        state.authUsers = action.payload.user;
+      })
+      .addCase(signup.rejected, (state, action) => {
+        state.isSigningup = false;
+      })
 
-    //login
-    .addCase(login.pending,(state)=>{
-      state.isLoggingIn=true
-    })
-    .addCase(login.fulfilled,(state,action)=>{
-      state.isLoggingIn=false
-      state.authUsers=action.payload.user
-    })
-    .addCase(login.rejected,(state)=>{
-      state.isLoggingIn=false
-    })
+      //login
+      .addCase(login.pending, (state) => {
+        state.isLoggingIn = true;
+      })
+      .addCase(login.fulfilled, (state, action) => {
+        state.isLoggingIn = false;
+        state.authUsers = action.payload.user;
+      })
+      .addCase(login.rejected, (state) => {
+        state.isLoggingIn = false;
+      })
 
-
-    //logout
-    .addCase(logout.fulfilled,(state)=>{
-      state.authUsers=null
-    })
-
-}});
-export const userAuth= (state)=>state.auth
-export default authSlice.reducer
+      //logout
+      .addCase(logout.fulfilled, (state) => {
+        state.authUsers = null;
+      });
+  },
+});
+export const userAuth = (state) => state.auth;
+export default authSlice.reducer;

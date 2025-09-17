@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
-
+import {Toaster} from "react-hot-toast"
 import Layout from "./components/Layout";
 import Like from "./pages/Like";
 
@@ -38,22 +38,55 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route element={<Layout />}>
-            <Route path="/" element={authUsers?<Home /> :<Navigate to="/login"/>} />
+            <Route
+              path="/"
+              element={authUsers ? <Home /> : <Navigate to="/login" />}
+            />
             <Route path="/like" element={<Like />} />
 
-            <Route path="/history" element={ authUsers?<History /> :<Navigate to="/login"/>} />
-            <Route path="/topmovies" element={ authUsers?<TopMovies /> :<Navigate to="/login"/> } />
-            <Route path="/search" element={ authUsers? <SearchResults />:<Navigate to="/login"/>} />
-            <Route path="/topvideos" element={ authUsers?<TopVideos />:<Navigate to="/login"/>} />
-            <Route path="/comment" element={ authUsers? <Comment />:<Navigate to="/login" />} />
-            <Route path="/video/:id" element={   authUsers? <VideoPlayerPage /> :<Navigate to="/login" />} />
-            <Route path="/notification" element={   authUsers? <Notification />:<Navigate to="/login" />} />
+            <Route
+              path="/history"
+              element={authUsers ? <History /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/topmovies"
+              element={authUsers ? <TopMovies /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/search"
+              element={authUsers ? <SearchResults /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/topvideos"
+              element={authUsers ? <TopVideos /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/comment"
+              element={authUsers ? <Comment /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/video/:id"
+              element={
+                authUsers ? <VideoPlayerPage /> : <Navigate to="/login" />
+              }
+            />
+            <Route
+              path="/notification"
+              element={authUsers ? <Notification /> : <Navigate to="/login" />}
+            />
           </Route>
-          <Route path="/login" element={ !authUsers ? <Login /> :<Navigate to='/'/>} />
+          <Route
+            path="/login"
+            element={!authUsers ? <Login /> : <Navigate to="/" />}
+          />
           <Route path="/logout" element={<Logout />} />
-          <Route path="/signup" element={ !authUsers?<Signup />: <Navigate to='/'/>} />
+          <Route
+            path="/signup"
+            element={!authUsers ? <Signup /> : <Navigate to="/" />}
+          />
         </Routes>
       </BrowserRouter>
+      <Toaster/>
     </>
   );
 }

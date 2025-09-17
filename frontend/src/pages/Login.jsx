@@ -1,16 +1,43 @@
 import React, { useState } from "react";
-import { Mail, Lock, Video, EyeOff, Eye } from "lucide-react";
+import {
+  Mail,
+  Lock,
+  Video,
+  EyeOff,
+  Eye,
+  Loader2,
+  ClockFading,
+} from "lucide-react";
 import AuthImageLogin from "../components/AuthImageLogin";
-
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../features/auth/authSlice";
+import toast from "react-hot-toast";
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+  const dispatch = useDispatch();
+  const { isLoggingIn } = useSelector((state) => state.auth.isLoggingIn);
+  const validateForm = () => {
+    if (!formData.email.trim()) return toast.error(" email is required");
+    if (!/\S+@\S+\.\S+/.test(formData.email))
+      return toast.error("Invalid email format");
+    if (!formData.password.trim()) return toast.error("password is required");
+    if (formData.password.length < 6)
+      return toast.error("password is must be atleast 6 characters");
 
+    return true;
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(formData);
+    const success = validateForm();
+    if (success === true) {
+      console.log(formData);
+      dispatch(login(formData));
+    }
   };
 
   return (
@@ -18,7 +45,6 @@ function Login() {
       {/* Left Side - Login Form */}
       <div className="flex flex-col justify-center items-center p-8 bg-[#e6e8f0]">
         <div className="w-full max-w-md space-y-8">
-          
           {/* Header */}
           <div className="text-center mb-8">
             <div className="flex flex-col items-center gap-3">
@@ -88,9 +114,16 @@ function Login() {
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full bg-pink-600 righteous-regular hover:bg-pink-700 text-white font-semibold py-3 px-4 rounded-xl transition-colors shadow-lg hover:shadow-xl transform hover:scale-[1.02] active:scale-[0.98]"
+              disabled={isLoggingIn}
+              className="w-full bg-pink-600 righteous-regular flex justify-center items-center hover:bg-pink-700 text-white font-semibold py-3 px-4 rounded-xl transition-colors shadow-lg hover:shadow-xl transform hover:scale-[1.02] active:scale-[0.98]"
             >
-              Sign In
+              {isLoggingIn ? (
+                <>
+                  <Loader2 className="size-5 flex animate-spin" /> Loading...
+                </>
+              ) : (
+                "Sign In"
+              )}
             </button>
           </form>
 
