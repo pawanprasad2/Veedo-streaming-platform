@@ -6,7 +6,6 @@ import {
   EyeOff,
   Eye,
   Loader2,
-  ClockFading,
 } from "lucide-react";
 import AuthImageLogin from "../components/AuthImageLogin";
 import { useDispatch, useSelector } from "react-redux";
