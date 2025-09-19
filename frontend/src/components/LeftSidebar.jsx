@@ -9,6 +9,9 @@ import {
 } from "@tabler/icons-react";
 import { NavLink } from "react-router-dom";
 
+const SIDEBAR_WIDTH = 200;
+const SIDEBAR_COLLAPSED = 70;
+
 const links = [
   { label: "Dashboard", href: "/", icon: <IconBrandTabler className="h-5 w-5" /> },
   { label: "Profile", href: "/profile", icon: <IconUserBolt className="h-5 w-5" /> },
@@ -16,28 +19,35 @@ const links = [
   { label: "Logout", href: "/logout", icon: <IconArrowLeft className="h-5 w-5" /> },
 ];
 
-export default function LeftSidebar({ onClose, isMobile }) {
-  const [open, setOpen] = useState(isMobile ? true : false);
+export default function LeftSidebar({ onClose, isMobile, onOpenChange }) {
+  const [open, setOpen] = useState(isMobile); // default true if mobile
 
   const handleMouseEvents = !isMobile
     ? {
-        onMouseEnter: () => setOpen(true),
-        onMouseLeave: () => setOpen(false),
+        onMouseEnter: () => {
+          setOpen(true);
+          onOpenChange?.(true);
+        },
+        onMouseLeave: () => {
+          setOpen(false);
+          onOpenChange?.(false);
+        },
       }
     : {};
 
   return (
     <motion.div
       {...handleMouseEvents}
-      animate={{ width: open || isMobile ? 240 : 70 }}
+      animate={{ width: open || isMobile ? SIDEBAR_WIDTH : SIDEBAR_COLLAPSED }}
       transition={{ duration: 0.3, type: "spring", stiffness: 200 }}
-      className={`flex flex-col bg-neutral-900 border-r border-neutral-800 h-screen shadow-xl 
-        ${isMobile ? "fixed top-0 left-0 z-50" : ""}`}
+      className={`fixed top-0 left-0 h-screen flex flex-col
+        bg-neutral-900 border-r border-neutral-800 shadow-xl z-50`}
     >
       {/* Mobile close button */}
       {isMobile && (
         <button
           onClick={onClose}
+          aria-label="Close Sidebar"
           className="absolute right-2 top-2 p-2 rounded-lg hover:bg-neutral-800/50 text-neutral-400 z-50"
         >
           <IconX className="h-5 w-5" />
@@ -50,35 +60,16 @@ export default function LeftSidebar({ onClose, isMobile }) {
       </div>
 
       {/* Links */}
-      <div className="flex-1 overflow-y-auto px-2 py-4">
-        {links.map((link, idx) => (
+      <nav className="flex-1 overflow-y-auto px-2 py-4">
+        {links.map(link => (
           <SidebarLink
-            key={idx}
+            key={link.label}
             link={link}
             open={open || isMobile}
             onClose={isMobile ? onClose : undefined}
           />
         ))}
-      </div>
-
-      {/* User profile */}
-      <div className="p-4 border-t border-neutral-800">
-        <SidebarLink
-          link={{
-            label: "User Profile",
-            href: "/profile",
-            icon: (
-              <img
-                src="/avatar.png"
-                className="h-8 w-8 rounded-full ring-2 ring-neutral-700"
-                alt="Avatar"
-              />
-            ),
-          }}
-          open={open || isMobile}
-          onClose={isMobile ? onClose : undefined}
-        />
-      </div>
+      </nav>
     </motion.div>
   );
 }
@@ -90,11 +81,9 @@ function SidebarLink({ link, open, onClose }) {
       onClick={onClose}
       className={({ isActive }) =>
         `flex items-center gap-3 rounded-lg p-2.5 mb-1 transition-all duration-200
-         ${
-           isActive
-             ? "bg-neutral-800 text-white"
-             : "text-neutral-400 hover:text-neutral-100 hover:bg-neutral-800/50"
-         }`
+         ${isActive
+           ? "bg-neutral-800 text-white"
+           : "text-neutral-400 hover:text-neutral-100 hover:bg-neutral-800/50"}`
       }
     >
       {link.icon}
@@ -113,7 +102,7 @@ function SidebarLink({ link, open, onClose }) {
 
 function Logo() {
   return (
-    <a href="#" className="flex items-center gap-3">
+    <NavLink to="/" className="flex items-center gap-3">
       <div className="h-8 w-8 rounded bg-white/90 shadow-lg" />
       <motion.span
         initial={{ opacity: 0 }}
@@ -122,14 +111,14 @@ function Logo() {
       >
         Veedo
       </motion.span>
-    </a>
+    </NavLink>
   );
 }
 
 function LogoIcon() {
   return (
-    <a href="#" className="flex items-center justify-center">
+    <NavLink to="/" className="flex items-center justify-center">
       <div className="h-8 w-8 rounded bg-white/90 shadow-lg" />
-    </a>
+    </NavLink>
   );
 }
