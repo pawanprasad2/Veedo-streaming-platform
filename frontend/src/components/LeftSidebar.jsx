@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import veedologo from "../assets/veedoLogo.png";
 import {
   IconArrowLeft,
   IconBrandTabler,
@@ -9,18 +10,18 @@ import {
 } from "@tabler/icons-react";
 import { NavLink } from "react-router-dom";
 
-const SIDEBAR_WIDTH = 200;
-const SIDEBAR_COLLAPSED = 70;
+const SIDEBAR_WIDTH = 220;     // width when expanded
+const SIDEBAR_COLLAPSED = 70;  // width when collapsed
 
 const links = [
-  { label: "Dashboard", href: "/", icon: <IconBrandTabler className="h-5 w-5" /> },
-  { label: "Profile", href: "/profile", icon: <IconUserBolt className="h-5 w-5" /> },
-  { label: "Settings", href: "/settings", icon: <IconSettings className="h-5 w-5" /> },
-  { label: "Logout", href: "/logout", icon: <IconArrowLeft className="h-5 w-5" /> },
+  { label: "Dashboard", href: "/",      icon: <IconBrandTabler className="h-7 w-7 text-pink-500" /> },
+  { label: "Profile",   href: "/profile", icon: <IconUserBolt className="h-7 w-7 text-pink-500" /> },
+  { label: "Settings",  href: "/settings", icon: <IconSettings className="h-7 w-7 text-pink-500" /> },
+  { label: "Logout",    href: "/logout",   icon: <IconArrowLeft className="h-7 w-7 text-pink-500" /> },
 ];
 
 export default function LeftSidebar({ onClose, isMobile, onOpenChange }) {
-  const [open, setOpen] = useState(isMobile); // default true if mobile
+  const [open, setOpen] = useState(isMobile);
 
   const handleMouseEvents = !isMobile
     ? {
@@ -39,9 +40,9 @@ export default function LeftSidebar({ onClose, isMobile, onOpenChange }) {
     <motion.div
       {...handleMouseEvents}
       animate={{ width: open || isMobile ? SIDEBAR_WIDTH : SIDEBAR_COLLAPSED }}
-      transition={{ duration: 0.3, type: "spring", stiffness: 200 }}
-      className={`fixed top-0 left-0 h-screen flex flex-col
-        bg-neutral-900 border-r border-neutral-800 shadow-xl z-50`}
+      transition={{ duration: 0.3, type: "tween" }}
+      className="fixed top-0 left-0 h-screen flex flex-col
+                 bg-[#0d0d0f] border-r border-neutral-800 shadow-xl z-50"
     >
       {/* Mobile close button */}
       {isMobile && (
@@ -54,14 +55,14 @@ export default function LeftSidebar({ onClose, isMobile, onOpenChange }) {
         </button>
       )}
 
-      {/* Logo */}
-      <div className="p-4 border-b border-neutral-800">
-        {(open || isMobile) ? <Logo /> : <LogoIcon />}
+      {/* ✅ BIG fixed logo */}
+      <div className="p-4 border-b border-neutral-800 flex justify-center">
+        <Logo /> {/* only image, no text */}
       </div>
 
-      {/* Links */}
+      {/* Navigation Links */}
       <nav className="flex-1 overflow-y-auto px-2 py-4">
-        {links.map(link => (
+        {links.map((link) => (
           <SidebarLink
             key={link.label}
             link={link}
@@ -80,7 +81,7 @@ function SidebarLink({ link, open, onClose }) {
       to={link.href}
       onClick={onClose}
       className={({ isActive }) =>
-        `flex items-center gap-3 rounded-lg p-2.5 mb-1 transition-all duration-200
+        `flex items-center rounded-lg p-2.5 mb-4 transition-all duration-200
          ${isActive
            ? "bg-neutral-800 text-white"
            : "text-neutral-400 hover:text-neutral-100 hover:bg-neutral-800/50"}`
@@ -91,7 +92,8 @@ function SidebarLink({ link, open, onClose }) {
         <motion.span
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="font-medium whitespace-nowrap"
+          transition={{ duration: 0.2 }}
+          className="ml-2 font-medium whitespace-nowrap"
         >
           {link.label}
         </motion.span>
@@ -100,25 +102,13 @@ function SidebarLink({ link, open, onClose }) {
   );
 }
 
+/* ✅ Logo – fixed large image only */
 function Logo() {
   return (
-    <NavLink to="/" className="flex items-center gap-3">
-      <div className="h-8 w-8 rounded bg-white/90 shadow-lg" />
-      <motion.span
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="font-bold text-xl text-white"
-      >
-        Veedo
-      </motion.span>
-    </NavLink>
-  );
-}
-
-function LogoIcon() {
-  return (
-    <NavLink to="/" className="flex items-center justify-center">
-      <div className="h-8 w-8 rounded bg-white/90 shadow-lg" />
-    </NavLink>
+    <img
+      src={veedologo}
+      alt="Veedo Logo"
+      className="object-cover w-[90px] h-[90px] transition-all duration-300" // increased from 40px to 60px
+    />
   );
 }

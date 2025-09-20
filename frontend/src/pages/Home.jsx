@@ -23,9 +23,9 @@ const Home = () => {
   ];
 
   return (
-    <div className="w-full   animate-fade-in">
+    <div className="w-full    animate-fade-in">
       {/* Hero Section */}
-      <div className="w-full flex  flex-col lg:flex-row h-auto text-white righteous-regular mb-12 rounded-2xl p-4 sm:p-6 lg:p-12">
+      <div className="w-full flex   flex-col lg:flex-row h-auto text-white righteous-regular mb-12 rounded-2xl p-4 sm:p-6 lg:p-12">
         <div className="w-full lg:w-1/2  flex flex-col justify-center space-y-6 animate-slide-in-left">
           <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold leading-tight">
             Your Screen. Your Squad. Your{" "}
