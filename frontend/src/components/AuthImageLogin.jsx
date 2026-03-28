@@ -7,7 +7,6 @@ import {
   Rewind,
   RotateCcw,
   Zap,
-  Hexagon,
 } from "lucide-react";
 
 const AuthImageLogin = ({ title, subtitle }) => {
@@ -115,7 +114,8 @@ const AuthImageLogin = ({ title, subtitle }) => {
 
       {/* Hexagonal elements */}
       <div className="relative top-50" style={{ zIndex: 2 }}>
-        {hexagonElements.map(({ Icon, size, position, delay }, i) => {
+        {hexagonElements.map((item, i) => {
+          const { Icon, size, position, delay } = item;
           const { container, icon } = getHexagonSize(size);
           return (
             <div

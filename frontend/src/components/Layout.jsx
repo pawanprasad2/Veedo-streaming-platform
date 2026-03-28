@@ -3,7 +3,7 @@ import TopBar from "./TopBar";
 import LeftSidebar from "./LeftSidebar";
 import Footer from "../pages/Footer";
 import { Outlet } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 
 const SIDEBAR_WIDTH = 120;
 const SIDEBAR_COLLAPSED = 0;
@@ -30,22 +30,21 @@ export default function Layout() {
       </div>
 
       {/* Main Content */}
-      <motion.main
-        animate={{
-          marginLeft: isDesktopOpen 
-            ? `${SIDEBAR_WIDTH}px` 
+      <main
+        style={{
+          marginLeft: isDesktopOpen
+            ? `${SIDEBAR_WIDTH}px`
             : `${SIDEBAR_COLLAPSED}px`,
           width: isDesktopOpen
             ? `calc(100% - ${SIDEBAR_WIDTH}px)`
-            : `calc(100% - ${SIDEBAR_COLLAPSED}px)`
+            : `calc(100% - ${SIDEBAR_COLLAPSED}px)`,
         }}
-        transition={{ duration: 0.3 }}
-        className="flex-1 "
+        className="flex-1 transition-[margin-left,width] duration-300"
       >
         <div className="max-w-[92rem]   ml-0  md:ml-18 lg:ml-12">
           <Outlet />
         </div>
-      </motion.main>
+      </main>
 
       <Footer />
 
@@ -54,26 +53,19 @@ export default function Layout() {
         {isMobileOpen && (
           <>
             {/* Overlay */}
-             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
+             <div
               onClick={() => setIsMobileOpen(false)}
               className="fixed inset-0  bg-black/60 backdrop-blur-sm z-40 md:hidden"
             />
             {/* Sidebar */}
-             <motion.div
-              initial={{ x: "-100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "-100%" }}
-              transition={{ type: "tween", damping: 20 }}
+             <div
               className="fixed inset-y-0 left-0 w-49  bg-neutral-900 z-50 shadow-xl md:hidden"
             >
               <LeftSidebar
                 onClose={() => setIsMobileOpen(false)}
                 isMobile={true}
               />
-            </motion.div>
+            </div>
           </>
         )}
       </AnimatePresence>

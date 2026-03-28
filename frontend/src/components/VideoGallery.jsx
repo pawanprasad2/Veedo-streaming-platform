@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import VideoCarousel from "./VideoCarousel";
+import { fetchVideos, selectVideos } from "../features/videos/videoSlice";
 
 const categories = [
   { id: "all", name: "All Videos", filter: () => true },
@@ -22,25 +24,17 @@ const categories = [
 ];
 
 function VideoGallery() {
-  const [videos, setVideos] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
+  const dispatch = useDispatch();
+  const { items: videos, isLoadingList: loading, page, hasMore } =
+    useSelector(selectVideos);
 
   useEffect(() => {
-    loadVideos(1);
-    // eslint-disable-next-line
-  }, []);
+    dispatch(fetchVideos({ page: 1, limit: 20 }));
+  }, [dispatch]);
 
   // Load videos for a given page
   async function loadVideos(pageNum) {
-    setLoading(true);
-    const res = await fetchVideos(pageNum, 20);
-    const newVideos = Array.isArray(res?.videos) ? res.videos : [];
-    setVideos(pageNum === 1 ? newVideos : (prev) => [...prev, ...newVideos]);
-    setHasMore(newVideos.length === 20);
-    setPage(pageNum);
-    setLoading(false);
+    await dispatch(fetchVideos({ page: pageNum, limit: 20 }));
   }
 
   // Load more videos on button click
@@ -68,7 +62,6 @@ function VideoGallery() {
               key={cat.id}
               videos={vids}
               title={cat.name}
-              category={cat.id}
             />
           );
         })}

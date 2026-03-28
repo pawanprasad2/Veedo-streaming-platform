@@ -6,7 +6,6 @@ import {
   Video,
   EyeOff,
   Eye,
-  Loader,
   Loader2,
 } from "lucide-react";
 import AuthImagePattern from "../components/AuthImagePattern";

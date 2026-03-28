@@ -1,38 +1,46 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import Plyr from "plyr-react";
 import "plyr-react/plyr.css";
 import "../page.css";
+import {
+  fetchVideoById,
+  fetchVideosByCategory,
+  resetCurrentVideo,
+  selectVideos,
+} from "../features/videos/videoSlice";
 
 const VideoPlayerPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [video, setVideo] = useState(null);
-  const [related, setRelated] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+  const {
+    currentVideo: video,
+    relatedVideos: related,
+    isLoadingVideo,
+    isLoadingRelated,
+  } = useSelector(selectVideos);
+  const loading = isLoadingVideo || isLoadingRelated;
 
   const loadVideo = useCallback(async (videoId) => {
     try {
-      const [videoData, relatedData] = await Promise.all([
-        fetchVideoById(videoId),
-        fetchVideoById(videoId).then((v) =>
-          fetchVideosByCategory(v.category, videoId)
-        ),
-      ]);
-
-      setVideo(videoData);
-      setRelated(relatedData);
+      const videoData = await dispatch(fetchVideoById(videoId)).unwrap();
+      await dispatch(
+        fetchVideosByCategory({
+          category: videoData.category,
+          excludeId: videoId,
+        })
+      ).unwrap();
     } catch (error) {
       console.error("Error loading video:", error);
-    } finally {
-      setLoading(false);
     }
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
-    setLoading(true);
+    dispatch(resetCurrentVideo());
     loadVideo(id);
-  }, [id, loadVideo]);
+  }, [dispatch, id, loadVideo]);
 
   const handleVideoClick = useCallback(
     (videoId) => {
@@ -45,6 +53,14 @@ const VideoPlayerPage = () => {
     return (
       <div className="flex items-center justify-center  h-64">
         <div className="animate-spin rounded-full h-8 w-8 border-2 border-blue-500 border-t-transparent"></div>
+      </div>
+    );
+  }
+
+  if (!video) {
+    return (
+      <div className="flex items-center justify-center h-64 text-gray-400">
+        Video not found.
       </div>
     );
   }

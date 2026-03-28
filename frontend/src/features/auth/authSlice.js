@@ -1,4 +1,3 @@
-import axios from "axios";
 import { axiosInstance } from "../../lib/axios";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import toast from "react-hot-toast";
@@ -21,7 +20,7 @@ export const signup = createAsyncThunk(
       toast.success("Account created successfully");
       return res.data;
     } catch (error) {
-      console.error({message:error})
+      console.error({ message: error });
       toast.error(error.response?.data?.message || "Signup failed");
       return thunkAPI.rejectWithValue(error.response?.data?.message);
     }
@@ -72,7 +71,7 @@ const authSlice = createSlice({
         state.authUsers = action.payload;
         state.isCheckingAuth = false;
       })
-      .addCase(checkAuth.rejected, (state, action) => {
+      .addCase(checkAuth.rejected, (state) => {
         state.authUsers = null;
         state.isCheckingAuth = false;
       })
@@ -85,7 +84,7 @@ const authSlice = createSlice({
         state.isSigningup = false;
         state.authUsers = action.payload.user;
       })
-      .addCase(signup.rejected, (state, action) => {
+      .addCase(signup.rejected, (state) => {
         state.isSigningup = false;
       })
 

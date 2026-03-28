@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import VideoCard from './VideoCard';
 
-const VideoCarousel = ({ videos, title, category }) => {
+const VideoCarousel = ({ videos, title }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [visibleCards, setVisibleCards] = useState(4);
   const carouselRef = useRef(null);

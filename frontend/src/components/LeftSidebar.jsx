@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { motion } from "framer-motion";
 import veedologo from "../assets/veedoLogo.png";
 import {
   IconArrowLeft,
@@ -37,12 +36,11 @@ export default function LeftSidebar({ onClose, isMobile, onOpenChange }) {
     : {};
 
   return (
-    <motion.div
+    <div
       {...handleMouseEvents}
-      animate={{ width: open || isMobile ? SIDEBAR_WIDTH : SIDEBAR_COLLAPSED }}
-      transition={{ duration: 0.3, type: "tween" }}
+      style={{ width: open || isMobile ? SIDEBAR_WIDTH : SIDEBAR_COLLAPSED }}
       className="fixed top-0 left-0 h-screen flex flex-col
-                 bg-[#0d0d0f] border-r border-neutral-800 shadow-xl z-50"
+                 bg-[#0d0d0f] border-r border-neutral-800 shadow-xl z-50 transition-[width] duration-300"
     >
       {/* Mobile close button */}
       {isMobile && (
@@ -71,7 +69,7 @@ export default function LeftSidebar({ onClose, isMobile, onOpenChange }) {
           />
         ))}
       </nav>
-    </motion.div>
+    </div>
   );
 }
 
@@ -89,14 +87,11 @@ function SidebarLink({ link, open, onClose }) {
     >
       {link.icon}
       {open && (
-        <motion.span
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.2 }}
+        <span
           className="ml-2 font-medium whitespace-nowrap"
         >
           {link.label}
-        </motion.span>
+        </span>
       )}
     </NavLink>
   );

@@ -18,7 +18,7 @@ function Login() {
     password: "",
   });
   const dispatch = useDispatch();
-  const { isLoggingIn } = useSelector((state) => state.auth.isLoggingIn);
+  const isLoggingIn = useSelector((state) => state.auth.isLoggingIn);
   const validateForm = () => {
     if (!formData.email.trim()) return toast.error(" email is required");
     if (!/\S+@\S+\.\S+/.test(formData.email))

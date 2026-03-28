@@ -14,15 +14,15 @@ const AuthImagePattern = ({ title, subtitle }) => {
   return (
     <section className="hidden lg:flex flex-col bg-pink-700 items-center justify-center p-12 relative">
       <div className="grid grid-cols-3 gap-6 mb-10">
-        {videoIcons.map(({ Icon, color, delay }, i) => (
+        {videoIcons.map((item, i) => (
           <div
             key={i}
             className="aspect-square rounded-xl bg-pink-50/10 flex items-center justify-center shadow-lg"
             style={{
-              animation: `fadeInUp 0.6s ease-out ${delay} both`,
+              animation: `fadeInUp 0.6s ease-out ${item.delay} both`,
             }}
           >
-            <Icon className={`w-8 h-8 text-${color}`} strokeWidth={1.5} />
+            <item.Icon className={`w-8 h-8 text-${item.color}`} strokeWidth={1.5} />
           </div>
         ))}
       </div>
